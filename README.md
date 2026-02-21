@@ -1,4 +1,4 @@
-# RootSense — Smart Indoor Garden Monitor
+# PlantPulse — Smart Indoor Garden Monitor
 
 IoT-powered tabletop garden monitoring web app for indoor plants (Tulsi, Green Chilli, Spinach etc.)
 
