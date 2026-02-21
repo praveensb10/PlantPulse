@@ -65,7 +65,7 @@ npm run dev
 
 ---
 
-## oT Integration
+## Iot Integration
 
 Only need to touch ONE file: `backend/app/mqtt/subscriber.py`
 
