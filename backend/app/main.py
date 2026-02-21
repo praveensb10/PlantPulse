@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import plants, sensor_data, controls
+from app.routers import plants, sensor_data, controls, thingsboard
 
 app = FastAPI(title="Plant Monitor API", version="1.0.0")
 
@@ -15,6 +15,7 @@ app.add_middleware(
 app.include_router(plants.router)
 app.include_router(sensor_data.router)
 app.include_router(controls.router)
+app.include_router(thingsboard.router)
 
 
 @app.get("/")

@@ -22,6 +22,7 @@ export default function PlantDetail({ session }) {
   const [lightLoading, setLightLoading] = useState(false)
   const [waterLoading, setWaterLoading] = useState(false)
   const [waterSuccess, setWaterSuccess] = useState(false)
+  const [lastWatered, setLastWatered] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -36,6 +37,13 @@ export default function PlantDetail({ session }) {
         setPlant(plantData)
         setSensor(sensorData)
         setLightOn(lightData?.is_on || false)
+
+        // If watering_needed is true, use the last sensor reading timestamp as "last watered"
+        if (sensorData?.watering_needed && sensorData?.timestamp) {
+          setLastWatered(sensorData.timestamp)
+        } else if (plantData?.last_watered) {
+          setLastWatered(plantData.last_watered)
+        }
       } catch (err) {
         setError('Failed to load plant data')
       } finally {
@@ -49,6 +57,10 @@ export default function PlantDetail({ session }) {
       try {
         const sensorData = await getLatestSensorData(id)
         setSensor(sensorData)
+        // Update last watered from sensor timestamp when watering_needed is true
+        if (sensorData?.watering_needed && sensorData?.timestamp) {
+          setLastWatered(sensorData.timestamp)
+        }
       } catch {}
     }, 30000)
 
@@ -71,8 +83,11 @@ export default function PlantDetail({ session }) {
   async function handleWater() {
     setWaterLoading(true)
     try {
-      const result = await triggerWater(id)
-      setPlant(prev => ({ ...prev, last_watered: result.last_watered }))
+      await triggerWater(id)
+      // Set last watered to current time when user manually waters
+      const now = new Date().toISOString()
+      setLastWatered(now)
+      setPlant(prev => ({ ...prev, last_watered: now }))
       setWaterSuccess(true)
       setTimeout(() => setWaterSuccess(false), 3000)
     } catch (err) {
@@ -159,8 +174,8 @@ export default function PlantDetail({ session }) {
                 <div className="rounded-2xl p-4 bg-earth-50 border border-earth-100">
                   <p className="text-xs text-earth-400 mb-1">Last watered</p>
                   <p className="font-display text-sm font-semibold text-earth-700">
-                    {plant.last_watered
-                      ? new Date(plant.last_watered).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })
+                    {lastWatered
+                      ? new Date(lastWatered).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })
                       : 'Never'}
                   </p>
                 </div>
