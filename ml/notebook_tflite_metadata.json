@@ -1,0 +1,66 @@
+{
+  "watering": {
+    "features": [
+      "SoilMoisture",
+      "Temperature",
+      "Humidity"
+    ],
+    "keras_model": "watering_model.keras",
+    "tflite_model": "watering_model_float32.tflite",
+    "tflite_dtype": "float32",
+    "task": "binary_classification",
+    "threshold": 0.5,
+    "input_mean": [
+      45.457584381103516,
+      NaN,
+      NaN
+    ],
+    "input_std": [
+      25.998682022094727,
+      NaN,
+      NaN
+    ],
+    "classes": [
+      "No Water",
+      "Needs Water"
+    ]
+  },
+  "health": {
+    "features": [
+      "SoilMoisture",
+      "Temperature",
+      "Humidity",
+      "LightIntensity",
+      "Nitrogen",
+      "Phosphorus",
+      "Potassium"
+    ],
+    "keras_model": "health_model.keras",
+    "tflite_model": "health_model_float32.tflite",
+    "tflite_dtype": "float32",
+    "task": "multiclass_classification",
+    "input_mean": [
+      25.024269104003906,
+      23.965229034423828,
+      54.883827209472656,
+      613.507568359375,
+      30.4263858795166,
+      30.105649948120117,
+      30.288227081298828
+    ],
+    "input_std": [
+      8.783867835998535,
+      3.371647357940674,
+      8.696130752563477,
+      229.95050048828125,
+      11.453364372253418,
+      11.3218412399292,
+      11.659513473510742
+    ],
+    "classes": [
+      "Healthy",
+      "High Stress",
+      "Moderate Stress"
+    ]
+  }
+}

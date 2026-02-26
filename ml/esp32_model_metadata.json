@@ -1,0 +1,53 @@
+{
+  "watering_model": {
+    "file": "watering_model_float32.tflite",
+    "task": "binary_classification",
+    "input_features": [
+      "SoilMoisture",
+      "Temperature",
+      "Humidity"
+    ],
+    "output": {
+      "0": "No Water",
+      "1": "Needs Water"
+    },
+    "accuracy": 0.6537
+  },
+  "health_model": {
+    "file": "health_model_float32.tflite",
+    "task": "multiclass_classification_linear_svm",
+    "input_features": [
+      "SoilMoisture",
+      "Temperature",
+      "Humidity",
+      "LightIntensity",
+      "Nitrogen",
+      "Phosphorus",
+      "Potassium"
+    ],
+    "output": {
+      "0": "Healthy",
+      "1": "Moderate Stress",
+      "2": "High Stress"
+    },
+    "accuracy": 0.6958
+  },
+  "nutrient_rules": {
+    "nitrogen": {
+      "deficient_below": 40.0,
+      "optimal_min": 40.0,
+      "optimal_max": 120.0
+    },
+    "phosphorus": {
+      "deficient_below": 10.0,
+      "optimal_min": 10.0,
+      "optimal_max": 40.0
+    },
+    "potassium": {
+      "deficient_below": 50.0,
+      "optimal_min": 50.0,
+      "optimal_max": 200.0
+    }
+  },
+  "esp32_note": "Run nutrient rules in firmware using thresholds from this file; this is better than forcing deterministic checks into ML."
+}
