@@ -11,7 +11,7 @@ class PlantCreate(BaseModel):
 
 
 class PlantResponse(BaseModel):
-    id: str
+    id: int
     user_id: str
     name: str
     variety: Optional[str]
@@ -22,7 +22,7 @@ class PlantResponse(BaseModel):
 
 
 class SensorReading(BaseModel):
-    plant_id: str
+    plant_id: int
     soil_moisture: Optional[float] = None
     temperature: Optional[float] = None
     humidity: Optional[float] = None

@@ -44,7 +44,7 @@ async def send_rpc_command(device_id: str, light_on: bool = False, water_plant: 
         raise ValueError("No device_id provided and THINGSBOARD_DEVICE_ID not set in .env")
 
     token = await _get_auth_token()
-
+    light_on = not light_on  
     rpc_payload = {
         "method": "setControl",
         "params": {
@@ -52,11 +52,12 @@ async def send_rpc_command(device_id: str, light_on: bool = False, water_plant: 
             "water_plant": water_plant,
         },
         "timeout": 5000,  # ms to wait for device response
+        "retries" : 5
     }
 
     async with httpx.AsyncClient() as client:
         resp = await client.post(
-            f"{THINGSBOARD_URL}/api/rpc/oneway/{target_device}",
+            f"{THINGSBOARD_URL}/api/plugins/rpc/oneway/{device_id}",
             json=rpc_payload,
             headers={"X-Authorization": f"Bearer {token}"},
             timeout=10.0,
@@ -67,7 +68,7 @@ async def send_rpc_command(device_id: str, light_on: bool = False, water_plant: 
             clear_token_cache()
             token = await _get_auth_token()
             resp = await client.post(
-                f"{THINGSBOARD_URL}/api/rpc/oneway/{target_device}",
+                f"{THINGSBOARD_URL}/api/rpc/twoway/{target_device}",
                 json=rpc_payload,
                 headers={"X-Authorization": f"Bearer {token}"},
                 timeout=10.0,
@@ -75,5 +76,5 @@ async def send_rpc_command(device_id: str, light_on: bool = False, water_plant: 
 
         resp.raise_for_status()
         print(f"[ThingsBoard RPC] Sent to {target_device}: light_on={light_on}, water_plant={water_plant}")
-        # oneway RPC returns empty body on success (200)
+        # twoway RPC returns empty body on success (200)
         return {"status": "ok", "light_on": light_on, "water_plant": water_plant}
