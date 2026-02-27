@@ -120,7 +120,7 @@ export default function PlantDetail({ session }) {
     <div className="min-h-screen bg-cream">
       <Navbar session={session} />
 
-      <main className="max-w-5xl mx-auto px-6 py-8 fade-up">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 fade-up">
         {/* Back */}
         <button
           onClick={() => navigate('/dashboard')}
@@ -133,7 +133,7 @@ export default function PlantDetail({ session }) {
         <div className="bg-white rounded-3xl border border-earth-100 overflow-hidden mb-6">
           <div className="flex flex-col md:flex-row">
             {/* Image */}
-            <div className="md:w-64 h-56 md:h-auto bg-forest-50 flex-shrink-0">
+            <div className="w-full md:w-72 lg:w-80 h-56 sm:h-64 md:h-auto bg-forest-50 flex-shrink-0">
               {plant.image_url ? (
                 <img src={plant.image_url} alt={plant.name} className="w-full h-full object-cover" />
               ) : (
@@ -142,8 +142,8 @@ export default function PlantDetail({ session }) {
             </div>
 
             {/* Info */}
-            <div className="p-6 flex-1">
-              <div className="flex items-start justify-between mb-4">
+            <div className="p-4 sm:p-6 flex-1">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
                 <div>
                   <h1 className="font-display text-3xl font-bold text-forest-900 mb-1">{plant.name}</h1>
                   {plant.variety && <p className="text-earth-400 text-sm">{plant.variety}</p>}
@@ -161,7 +161,7 @@ export default function PlantDetail({ session }) {
                 )}
               </div>
 
-              <div className="grid grid-cols-2 gap-4 mt-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                 {/* Watering status */}
                 <div className={`rounded-2xl p-4 border ${sensor?.watering_needed ? 'bg-blue-50 border-blue-200' : 'bg-forest-50 border-forest-200'}`}>
                   <p className="text-xs opacity-60 mb-1">Watering needed</p>
@@ -193,7 +193,7 @@ export default function PlantDetail({ session }) {
 
         {/* Sensor readings grid */}
         <h2 className="font-display text-xl font-semibold text-forest-900 mb-4">Sensor Readings</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           <SensorCard icon="💧" label="Soil Moisture" value={sensor?.soil_moisture?.toFixed(1)} unit="%" color="blue" />
           <SensorCard icon="🌡️" label="Temperature" value={sensor?.temperature?.toFixed(1)} unit="°C" color="orange" />
           <SensorCard icon="💦" label="Humidity" value={sensor?.humidity?.toFixed(1)} unit="%" color="blue" />
